@@ -97,6 +97,9 @@ data[, loc_fact := factor(
 # get limts
 plims = transpose(data[, list(m = min(value), M = max(value)), by = "variable"], make.names = 1L)
 plims[, datetime := c(min(data$datetime), max(data$datetime))]
+
+# enforce limits on percipitation probability
+plims[, pprob := c(0, 100)]
 plims = melt(plims, id.vars = "datetime")
 plims[, variable_fact := factor(
         variable,
