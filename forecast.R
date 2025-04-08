@@ -40,7 +40,6 @@ res = lapply(
     }
 )
 
-
 # format data
 data = rbindlist(res)
 setnames(
@@ -86,12 +85,13 @@ if (weekdays(today, abbr = TRUE) == "Sun")
 pord = order(places)
 coords = apply(loc, 1L, function(w) paste0(format(w, digits = 4), collapse = ", "))
 # pwc = paste0(places, "<br><span style='font-size:11pt'>(", coords, ")</span>")
-pwc = paste0(places, "(", coords, " )")
+
+pwc = paste0("Coordinates: (", coords, " ) Distance from Ithaca : ", coordinates$Drive)
 
 data[, loc_fact := factor(
     loc,
     levels = places[pord],
-    labels = pwc[pord]
+    labels = places[pord]
 )]
 
 # get limts
@@ -107,11 +107,10 @@ plims[, variable_fact := factor(
         labels = c("Temperature (C)", "Percip. Prob", "Percipitation (mm)", "Relative Humidity")
     )
 ]
-# lmat = as.matrix(plims[, 2:3])
-# rownames(lmat) = plims[[1]]
 
-plot_list = lapply(pwc[pord], function(l) {
-    ggplot(
+# make plots
+plot_list = lapply(places[pord], function(l) {
+    g = ggplot(
         data[loc_fact == l],
         aes(x = datetime, y = value)
     ) +
@@ -157,22 +156,24 @@ plot_list = lapply(pwc[pord], function(l) {
             strip.background.y = element_rect(fill = "transparent"),
             strip.text.x = element_text(hjust = 0, size = 12),
             strip.text.y = element_text(hjust = 0, size = 15),
-            plot.margin = margin(t = 20,  r = 2, b = 0, l = 2)
+            plot.margin = margin(t = 25,  r = 2, b = 0, l = 2)
         )
+
+        g = add_sub(g, label = pwc[which(places == l)], size = 12, x = .175, y = 1, fontface = "italic", color = "#3b3b3b")
+        g
     }
 )
 
-# ggsave("forecast.jpg", plot = plot, width = 8, height = 14)
-
+# combine and save
 pdf("forecast.pdf", width = 12, height = n * 2.5)
 plot_grid(
     plotlist = plot_list,
     nrow = n,
     ncol = 1,
-    labels = pwc[pord],
+    labels = places[pord],
     label_size = 15,
-    label_fontface = "plain",
-    vjust = 1.5,
+    label_fontface = "bold",
+    vjust = 2,
     hjust = -.1
 )
 dev.off()
