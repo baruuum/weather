@@ -495,6 +495,17 @@
       ],
       "Hash": "b8f7c3c648c7aa429421b2cee22ed8b1"
     },
+    "logger": {
+      "Package": "logger",
+      "Version": "0.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "f25d781d5bc7757e08cf38c741a5ad1c"
+    },
     "magrittr": {
       "Package": "magrittr",
       "Version": "2.0.3",

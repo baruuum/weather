@@ -6,6 +6,7 @@ library("ggtext")
 library("cowplot")
 
 # get data
+logger::log_info("Getting coordinates ...")
 coordinates = fread(file.path("data", "coordinates.csv"))
 
 # coordinates
@@ -18,6 +19,7 @@ n = length(places)
 today = as.Date(Sys.Date())
 
 # ping API
+logger::log_info("Getting Forecast data from Open-Meteo ...")
 res = lapply(
     seq_along(places),
     function(w) {
@@ -39,6 +41,8 @@ res = lapply(
         return(ping_res)
     }
 )
+
+logger::log_info("Formatting Data ...")
 
 # format data
 data = rbindlist(res)
@@ -108,6 +112,8 @@ plims[, variable_fact := factor(
     )
 ]
 
+logger::log_info("Generating Plots ...")
+
 # make plots
 plot_list = lapply(places[pord], function(l) {
     g = ggplot(
@@ -176,6 +182,8 @@ plot_grid(
     vjust = 2,
     hjust = -.1
 )
-dev.off()
+invisible(dev.off())
+
+logger::log_info("Done!")
 
 ### EOF ###
