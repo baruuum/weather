@@ -34,4 +34,17 @@ will give you the forecast for the temperature and precipitation for the next tw
 
 - All forecasts are shown with black lines. The only exception is the apparent("feels like") temperature, which, if requested, is displayed as a purple line.
 - Weekends are shaded in blue
-- Temperature is measured in Celcius degrees and precipitation in mm/hr.
+- Temperature is measured in Celsius degrees and precipitation in mm/hr.
+- New locations can be added (or existing ones can be dropped) by changing the `./data/coordinates.csv` file, which has four columns
+    - Location (Name)
+    - Latitude
+    - Longitude
+    - Drive (hrs drive from Ithaca)
+
+An example plot is shown below, which was created with `Rscript forecast.R -d 5`
+
+<p align="center">
+<img src="forecast.png" width="700" />
+</p>
+
+Enjoy!
