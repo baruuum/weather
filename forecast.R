@@ -26,7 +26,7 @@ option_list = list(
         default = "tfpr",
         type    = "character",
         metavar = "STRING",
-        help    = "Statistics to curls: t = temperature, f = apparent temperature, p = percipitation, r = percipitation prob., h = relative humidity"
+        help    = "Statistics to curls: t = temperature, f = apparent temperature, p = precipitation, r = precipitation prob., h = relative humidity"
     ),
     make_option(
         c("-o", "--output"),

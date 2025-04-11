@@ -1,9 +1,37 @@
 # weather
 
-16-days weather forecast for selected climbing locations in the northeast, US.
+Forecast for selected climbing locations near(?) Ithaca, NY. Data are pulled from the Open-meteo Free Weather API. 
 
-Data comes from the Open-meteo Free Weather API. Nothing fancy.
+# Example
 
-- Temperature line in black is temperature in Celicus, dark magenta line is the "Feels like" temperature
+All available options can be found by running
+```bash
+> Rscript forecast.R --help
+Usage: forecast.R [options]
+
+
+Options:
+        -v, --verbose
+                Print extra output [default]
+
+        -s STRING, --stats=STRING
+                Statistics to curls: t = temperature, f = apparent temperature, p = precipitation, r = precipitation prob., h = relative humidity
+
+        -o STRING, --output=STRING
+                Output file. Only *.pdf and *.png allowed
+
+        -d NUMBER, --days=NUMBER
+                Number of days ahead to forecast
+
+        -h, --help
+                Show this help message and exit
+```
+For example, running
+```bash
+Rscript forecast.R -d 2 -s tp -o foo.pdf
+```
+will give you the forecast for the temperature and precipitation for the next two days and save it into the file `foo.pdf`.
+
+- All forecasts are shown with black lines. The only exception is the apparent("feels like") temperature, which, if requested, is displayed as a purple line.
 - Weekends are shaded in blue
-- Run `Rscript forecast.R` and it will produce a `forecast.pdf` file with plots
+- Temperature is measured in Celcius degrees and precipitation in mm/hr.
