@@ -44,7 +44,7 @@ will give you the forecast for the temperature and precipitation for the next tw
 An example plot is shown below, which was created with `Rscript forecast.R -d 5`
 
 <p align="center">
-<img src="forecast.png" width="700" />
+<img src="images/forecast.png" width="700" />
 </p>
 
 Enjoy!
