@@ -23,7 +23,7 @@ option_list = list(
     make_option(
         c("-s", "--stats"),
         action  = "store",
-        default = "tdfprh",
+        default = "tdpr",
         type    = "character",
         metavar = "STRING",
         help    = "Statistics to curls: t = temperature, f = apparent temperature, p = precipitation, r = precipitation prob., h = relative humidity, d = dew point"
