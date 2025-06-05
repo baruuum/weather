@@ -31,7 +31,7 @@ option_list = list(
     make_option(
         c("-p", "--places"),
         action = "store",
-        default = "gunks,bodine,sunfish,nine,snowy",
+        default = "ithaca,gunks,bodine,sunfish,nine,snowy",
         type    = "character",
         metavar = "STRING",
         help    = "Places to track: names of places to track, separated by a comma. Defaults to all places in the ~/data/coordinates.csv file."

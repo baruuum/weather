@@ -18,7 +18,7 @@ Options:
                 Statistics to curls: t = temperature, f = apparent temperature, p = precipitation, r = precipitation prob., h = relative humidity, d = dew point
 
         -p STRING, --places=STRING
-                Places to track: names of places to track, separated by a comma. Defaults to all places in the ~/data/coordinates.csv file.
+                Places to track: names of places to track, separated by a comma. Defaults to Bodine, Gunks, Ithaca, Nine Corners, Snowy Mountains, Sunfish Pond.
 
         -o STRING, --output=STRING
                 Output file. Only *.pdf and *.png allowed. Files should be separated by a comma.
@@ -43,7 +43,7 @@ will give you the forecast for the temperature and precipitation for the next tw
         - the dew point, displayed in teal
 - Weekends are shaded in blue
 - Temperature and dew point are measured in Celsius degrees and precipitation in mm/hr.
-- New locations can be added (or existing ones can be dropped) by changing the `./data/coordinates.csv` file, which has four columns
+- Locations can be customized by changing the `./data/coordinates.csv` file, which has four columns
     - Location (Name)
     - Latitude
     - Longitude
