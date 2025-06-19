@@ -4,7 +4,10 @@ Forecast for selected climbing locations near(?) Ithaca, NY. Data are pulled fro
 
 # Use Shiny
 
-
+```r
+library("shiny")
+runGithub("weather", "baruuum")
+```
 
 # Running the code directly
 
