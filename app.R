@@ -7,7 +7,19 @@ library("ggplot2")
 library("cowplot")
 
 ## ------------------------------------------------------------------
-## Setup and loading data
+## Setup renv and packages
+## ------------------------------------------------------------------
+
+if (!requireNamespace("renv", quietly = TRUE)) 
+    install.packages("renv", repos = "cran.rstudio.com")
+
+if (!renv::status()$synchronized)
+    renv::restore()
+
+
+
+## ------------------------------------------------------------------
+## Get coordinates and forcasts
 ## ------------------------------------------------------------------
 
 # get data
@@ -111,8 +123,11 @@ ui = page_sidebar(
 # input$loc = c("1", "4")
 # input$dates = c(Sys.Date(), Sys.Date() + 5)
 
-# Define server logic ----
-server <- function(input, output) {
+## ------------------------------------------------------------------
+## Define server logic
+## ------------------------------------------------------------------
+
+server = function(input, output) {
 
     # bs_themer()
     output$forecast = renderPlot({
