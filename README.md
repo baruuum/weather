@@ -2,7 +2,11 @@
 
 Forecast for selected climbing locations near(?) Ithaca, NY. Data are pulled from the Open-meteo Free Weather API. 
 
-# Example
+# Use Shiny
+
+
+
+# Running the code directly
 
 All available options can be found by running
 ```bash
