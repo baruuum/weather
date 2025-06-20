@@ -4,17 +4,22 @@ library("shiny")
 library("bslib")
 library("data.table")
 library("ggplot2")
-library("cowplot")
+
+
 
 ## ------------------------------------------------------------------
 ## Setup renv and packages
 ## ------------------------------------------------------------------
 
-if (!requireNamespace("renv", quietly = TRUE)) 
-    install.packages("renv", repos = "cran.rstudio.com")
+# Specify the application port
+options(shiny.host = "0.0.0.0")
+options(shiny.port = 8180)
 
-if (!renv::status()$synchronized)
-    renv::restore()
+# if (!requireNamespace("renv", quietly = TRUE)) 
+#     install.packages("renv", repos = "cran.rstudio.com")
+
+# if (!renv::status()$synchronized)
+#     renv::restore()
 
 
 
