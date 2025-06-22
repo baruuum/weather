@@ -1,0 +1,10 @@
+name: weather
+title:
+username: baruuum
+account: baruuum
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14974299
+bundleId:
+url: https://baruuum.shinyapps.io/weather/
+version: 1
