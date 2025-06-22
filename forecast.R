@@ -71,8 +71,10 @@ option_list = list(
 
 library("data.table")
 library("ggplot2")
-library("ggtext")
 library("cowplot")
+
+# helper function to trim strings
+str_trim = function(x) { gsub("\\s+", "", trimws(x)) }
 
 # get options
 # opts = parse_args(OptionParser(option_list = option_list), args = c("-v", "-o", "forecast.pdf, forecast.png", "-d", 10, "-s", "tfpd", "-p", "gunks, bodine"))
@@ -101,7 +103,7 @@ stats = sapply(
 )
 
 # output files
-outfiles = stringr::str_squish(strsplit(opts$output, ",")[[1]])
+outfiles = str_trim(strsplit(opts$output, ",")[[1]])
 
 if (!all(grepl("(\\.pdf$|\\.png$)", outfiles)))
     stop("Output must have either a pdf extension or png extension (i.e., filename.pdf or filename.png)")
@@ -127,7 +129,7 @@ if (opts$places == "all") {
 } else {
 
     opts_places = pmatch(
-        tolower(stringr::str_trim(strsplit(opts$places, ",")[[1]])),
+        tolower(str_trim(strsplit(opts$places, ",")[[1]])),
         tolower(coordinates$Location)
     )
 
@@ -138,7 +140,7 @@ if (opts$places == "all") {
 }
 
 if (verbose)
-    logger::log_info("Getting forecasts for ", paste0(places, collapse = ", "), " ...")
+    message("Getting forecasts for ", paste0(places, collapse = ", "), " ...")
 
 # number of places
 n = length(places)
@@ -147,7 +149,7 @@ n = length(places)
 today = as.Date(Sys.Date())
 
 if (verbose)
-    logger::log_info("Getting forecast data from Open-Meteo ...")
+    message("Getting forecast data from Open-Meteo ...")
 
 # ping API
 res = lapply(
@@ -173,7 +175,7 @@ res = lapply(
 ## ------------------------------------------------------------------
 
 if (verbose)
-    logger::log_info("Formatting data ...")
+    message("Formatting data ...")
 
 # format data
 data = rbindlist(res) |> 
@@ -299,7 +301,7 @@ if (NROW(hline_dat) > 0)
     )]
 
 if (verbose)
-    logger::log_info("Generating plots ...")
+    message("Generating plots ...")
 
 # make plots
 plot_list = lapply(
@@ -402,7 +404,7 @@ plot_list = lapply(
 )
 
 if (verbose)
-    logger::log_info("Saving output...")
+    message("Saving output...")
 
 unique_stats = length(stats)
 if (sum(c("apparent_temperature", "dew_point_2m", "temperature_2m") %in% stats) > 1)
@@ -433,6 +435,6 @@ for (o in outfiles) {
 }
 
 if (verbose)
-    logger::log_info("Done!")
+    message("Done!")
 
 ### EOF ###
