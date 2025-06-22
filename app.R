@@ -58,7 +58,7 @@ today = as.Date(Sys.Date())
 
 # get forecast
 res = lapply(
-    seq_along(places),
+    seq_along(app_locs),
     function(w) {
         ping_res = openmeteo::weather_forecast(
             location = loc[w, ],
@@ -67,7 +67,7 @@ res = lapply(
             hourly = names(app_stats_map),
             timezone = "America/New_York"
         )
-        ping_res$location = places[w]
+        ping_res$location = app_locs[w]
         setDT(ping_res)
         return(ping_res)
     }
@@ -149,6 +149,9 @@ server = function(input, output) {
             sel_loc = names(app_loc_list)[as.integer(input$loc)]
             data = data[location %in% sel_loc]
 
+            # print(as.integer(input$loc))
+            # print(sel_loc)
+
             # select variables
             sel_stats = app_stats_map[as.integer(input$stats)]
             data = data[variable %in% paste0("hourly_", names(sel_stats))]
@@ -210,6 +213,9 @@ server = function(input, output) {
                 levels = sort(sel_loc),
                 labels = sort(sel_loc)
             )]
+
+            # print(table(data$location))
+            # print(table(data$loc_fact))
 
             # generate limits for plots
             plims = transpose(data[, list(m = min(value), M = max(value)), by = "variable"], make.names = 1L)
@@ -366,7 +372,7 @@ server = function(input, output) {
                 plotlist = plot_list,
                 nrow = length(input$loc),
                 ncol = 1,
-                labels = places,
+                labels = sel_loc,
                 label_size = 15,
                 label_fontface = "bold",
                 vjust = 2,
@@ -379,5 +385,10 @@ server = function(input, output) {
 
 }
 
-# Run the app ----
+## ------------------------------------------------------------------
+## Run app
+## ------------------------------------------------------------------
+
 shinyApp(ui = ui, server = server)
+
+### EOF ###
