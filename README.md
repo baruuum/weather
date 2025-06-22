@@ -2,11 +2,10 @@
 
 Forecast for selected climbing locations near(?) Ithaca, NY. Data are pulled from the Open-meteo Free Weather API. 
 
-# Use Shiny
+# Using Shiny
 
-```r
-library("shiny")
-runGithub("weather", "baruuum")
+```bash
+R -e 'library(shiny); runApp(".")'
 ```
 
 # Running the code directly
