@@ -15,12 +15,6 @@ library("ggplot2")
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 8180)
 
-# if (!requireNamespace("renv", quietly = TRUE)) 
-#     install.packages("renv", repos = "cran.rstudio.com")
-
-# if (!renv::status()$synchronized)
-#     renv::restore()
-
 
 
 ## ------------------------------------------------------------------
