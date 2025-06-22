@@ -4,13 +4,20 @@ Forecast for selected climbing locations near(?) Ithaca, NY. Data are pulled fro
 
 # Using Shiny
 
+To open the Shiny application, you might use
 ```bash
-R -e 'library(shiny); runApp(".")'
+R -e 'renv::restore(); library(shiny); runApp(".")'
 ```
+in the cloned directory or, alternatively,
+```bash
+R -e 'shiny::runGitHub("weather", "baruuum")'
+```
+without cloning the directory. The second method requires you to have the following `R` packages installed: `shiny`, `bslib`, `data.table`, `ggplot2`, `cowplot`, `openmeteo`.
+
 
 # Running the code directly
 
-All available options can be found by running
+Assuming all packages are installed, which can be ensured by running `R -e 'renv::restore()'`, you can also run the forecasting script directly. All available options can be found by running
 ```bash
 > Rscript forecast.R --help
 Usage: forecast.R [options]
