@@ -68,4 +68,9 @@ An example plot is shown below
 <img src="images/forecast.png" width="700" />
 </p>
 
+# If nothing else works...
+
+You can build a `docker` image from the shared `Dockerfile`. This will take, however, quite some time (and, unfortunately, I've never shared the image)
+
+
 Enjoy!
