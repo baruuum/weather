@@ -4,7 +4,9 @@ Forecast for selected climbing locations near(?) Ithaca, NY. Data are pulled fro
 
 # Using Shiny
 
-To open the Shiny application, you might use
+The Shiny application has been deployed to [Shinyapps.io](https://baruuum.shinyapps.io). 
+
+To open the Shiny application directly, you might use
 ```bash
 R -e 'renv::restore(); library(shiny); runApp(".")'
 ```

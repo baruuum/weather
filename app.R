@@ -5,8 +5,7 @@ library("bslib")
 library("data.table")
 library("ggplot2")
 
-if (!renv::status()$synchronized)
-    renv::restore()
+
 
 ## ------------------------------------------------------------------
 ## Setup renv and packages
