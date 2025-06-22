@@ -5,7 +5,7 @@ library("bslib")
 library("data.table")
 library("ggplot2")
 
-
+renv::restore()
 
 ## ------------------------------------------------------------------
 ## Setup renv and packages
