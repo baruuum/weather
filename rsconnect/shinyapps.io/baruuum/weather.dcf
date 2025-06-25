@@ -5,6 +5,6 @@ account: baruuum
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 14974299
-bundleId: 10500654
+bundleId: 10517423
 url: https://baruuum.shinyapps.io/weather/
 version: 1

@@ -139,8 +139,6 @@ server = function(input, output, session) {
 
         # print(paste("Width:", width, "Height:", height))
 
-        withProgress(message = "Working on it ...", value = 0, {
-
             # select dates
             sel_dates = input$dates
             data[, date := as.Date(as.character(datetime))]
@@ -404,8 +402,6 @@ server = function(input, output, session) {
             dev.off()
 
             list(src = outfile, width = width, height = height * length(input$loc) / 3)
-
-        }) # withProgress
 
     },
     deleteFile = TRUE) #renderPlot
