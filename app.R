@@ -78,41 +78,43 @@ data = rbindlist(res) |>
 ## Define UI
 ## ------------------------------------------------------------------
 
-ui = page_sidebar(
+ui = page_fillable(
     title = tags$h1("Weather Forecast"),
-    sidebar = sidebar(
-        card(
-            card_header("Locations"),
-            checkboxGroupInput(
-                "loc",
-                NULL,
-                choices  = app_loc_list,
-                selected = app_loc_sel
+    layout_sidebar(
+        sidebar = sidebar(
+            card(
+                card_header("Locations"),
+                checkboxGroupInput(
+                    "loc",
+                    NULL,
+                    choices  = app_loc_list,
+                    selected = app_loc_sel
+                )
+            ),
+            card(
+                card_header("Date"),
+                dateRangeInput(
+                    "dates",
+                    NULL,
+                    start = today,
+                    end   = today + 7,
+                    min   = today,
+                    max   = today + 14
+                )
+            ),
+            card(
+                card_header("Statistics"),
+                checkboxGroupInput(
+                    "stats",
+                    NULL,
+                    choices  = app_stats_list,
+                    selected = app_stats_sel
+                )
             )
         ),
-        card(
-            card_header("Date"),
-            dateRangeInput(
-                "dates",
-                NULL,
-                start = today,
-                end   = today + 7,
-                min   = today,
-                max   = today + 14
-            )
-        ),
-        card(
-            card_header("Statistics"),
-            checkboxGroupInput(
-                "stats",
-                NULL,
-                choices  = app_stats_list,
-                selected = app_stats_sel
-            )
-        )
+        plotOutput(outputId = "forecast", height = "100%", width = "100%")
     ),
-    plotOutput(outputId = "forecast"),
-    tags$div(style="font-size:75%;padding:5px;text-align:right", tags$small("Forecast data are pulled from ", tags$a(href = "https://open-meteo.com/", "Open-meteo's Free Weather API."))),
+    tags$div(style="font-size:75%;padding:1px;text-align:right", tags$small("Forecast data are pulled from ", tags$a(href = "https://open-meteo.com/", "Open-meteo.com."))),
     theme = bs_theme(preset = "sandstone")
 )
 
@@ -126,11 +128,17 @@ ui = page_sidebar(
 ## Define server logic
 ## ------------------------------------------------------------------
 
-server = function(input, output) {
+server = function(input, output, session) {
 
     # bs_themer()
-    output$forecast = renderPlot({
-        
+    output$forecast = renderImage({
+
+        width = session$clientData$output_forecast_width
+        height = session$clientData$output_forecast_height
+        outfile = tempfile(fileext = ".png")
+
+        # print(paste("Width:", width, "Height:", height))
+
         withProgress(message = "Working on it ...", value = 0, {
 
             # select dates
@@ -149,6 +157,22 @@ server = function(input, output) {
             # select variables
             sel_stats = app_stats_map[as.integer(input$stats)]
             data = data[variable %in% paste0("hourly_", names(sel_stats))]
+
+            # number of columns to be plotted
+            n_col = as.integer(any(c("Feels Like", "Dew Point", "Temperature") %in% sel_stats)) +
+                    sum(c("Precip. Prob", "Precipitation", "Humidity") %in% sel_stats)
+
+
+            # Warnings based on selections            
+            if (n_col == 0) {
+                showNotification("No statistics selected for plotting.", type = "warning")
+                return(NULL)
+            }
+
+            if (length(sel_loc) == 0) {
+                showNotification("No locations selected for plotting.", type = "warning")
+                return(NULL)
+            }
 
             # make data for shading weekends
             dayname = weekdays(data$datetime, abbr = TRUE)
@@ -241,7 +265,7 @@ server = function(input, output) {
                     )
                 )
 
-            if ("Precip. Prob" %in% sel_stats)
+            if ("Precip. Prob" %in% sel_stats) {
                 hline_dat = rbind(
                     hline_dat,
                     data.table(
@@ -249,6 +273,8 @@ server = function(input, output) {
                         variable = "hourly_precipitation_probability"
                     )
                 )
+            
+            }
 
             if (NROW(hline_dat) > 0) 
                 hline_dat[, variable_fact := factor(
@@ -362,20 +388,27 @@ server = function(input, output) {
 
             )
 
-            cowplot::plot_grid(
-                plotlist = plot_list,
-                nrow = length(input$loc),
-                ncol = 1,
-                labels = sel_loc,
-                label_size = 15,
-                label_fontface = "bold",
-                vjust = 2,
-                hjust = -.1
+            png(outfile, width = width * 3, height = height * 3 * length(input$loc) / 3, res = 300)
+            print(
+                cowplot::plot_grid(
+                    plotlist = plot_list,
+                    nrow = length(input$loc),
+                    ncol = 1,
+                    labels = sel_loc,
+                    label_size = 15,
+                    label_fontface = "bold",
+                    vjust = 2,
+                    hjust = -.1
+                )
             )
+            dev.off()
+
+            list(src = outfile, width = width, height = height * length(input$loc) / 3)
 
         }) # withProgress
 
-    }) #renderPlot
+    },
+    deleteFile = TRUE) #renderPlot
 
 }
 
