@@ -130,12 +130,13 @@ ui = page_fillable(
 
 server = function(input, output, session) {
 
-    # bs_themer()
-    output$forecast = renderImage({
+    # width = session$clientData$output_forecast_width
+    # height = session$clientData$output_forecast_height
+    # outfile = tempfile(fileext = ".png")
 
-        width = session$clientData$output_forecast_width
-        height = session$clientData$output_forecast_height
-        outfile = tempfile(fileext = ".png")
+    # bs_themer()
+    # output$forecase = renderImage({
+    output$forecast = renderPlot({
 
         # print(paste("Width:", width, "Height:", height))
 
@@ -386,8 +387,8 @@ server = function(input, output, session) {
 
             )
 
-            png(outfile, width = width * 3, height = height * 3 * length(input$loc) / 3, res = 300)
-            print(
+            # png(outfile, width = width * 3, height = height * 3 * length(input$loc) / 3, res = 300)
+            # print(
                 cowplot::plot_grid(
                     plotlist = plot_list,
                     nrow = length(input$loc),
@@ -398,13 +399,14 @@ server = function(input, output, session) {
                     vjust = 2,
                     hjust = -.1
                 )
-            )
-            dev.off()
+            # )
+            # dev.off()
 
-            list(src = outfile, width = width, height = height * length(input$loc) / 3)
+            # list(src = outfile, width = width, height = height * length(input$loc) / 3)
 
-    },
-    deleteFile = TRUE) #renderPlot
+    })
+    # ,
+    # deleteFile = TRUE) #renderPlot
 
 }
 
