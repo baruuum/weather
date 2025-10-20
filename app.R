@@ -28,7 +28,7 @@ dat = fread(file.path("data", "coordinates.csv"))[order(Location)]
 app_locs = dat$Location
 app_loc_list = as.list(seq_along(app_locs))
 names(app_loc_list) = app_locs
-app_loc_sel = which(app_locs %in% grep("Gunk|Itha|Sunfi|Snowy", app_locs, value = TRUE))
+app_loc_sel = which(app_locs %in% grep("Gunks", app_locs, value = TRUE))
 
 # stats
 app_stats = c("Temperature", "Feels Like", "Dew Point", "Precip. Prob", "Precipitation", "Humidity")
